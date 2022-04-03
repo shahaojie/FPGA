@@ -1,0 +1,229 @@
+// Copyright (C) 1991-2013 Altera Corporation
+// Your use of Altera Corporation's design tools, logic functions 
+// and other software and tools, and its AMPP partner logic 
+// functions, and any output files from any of the foregoing 
+// (including device programming or simulation files), and any 
+// associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License 
+// Subscription Agreement, Altera MegaCore Function License 
+// Agreement, or other applicable license agreement, including, 
+// without limitation, that your use is for the sole purpose of 
+// programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the 
+// applicable agreement for further details.
+
+// *****************************************************************************
+// This file contains a Verilog test bench with test vectors .The test vectors  
+// are exported from a vector file in the Quartus Waveform Editor and apply to  
+// the top level entity of the current Quartus project .The user can use this   
+// testbench to simulate his design using a third-party simulation tool .       
+// *****************************************************************************
+// Generated on "07/16/2018 16:56:35"
+                                                                        
+// Verilog Self-Checking Test Bench (with test vectors) for design :    DSP_FPGA_IMC_PMSM
+// 
+// Simulation tool : 3rd Party
+// 
+
+`timescale 1 ps/ 1 ps
+module DSP_FPGA_IMC_PMSM_vlg_sample_tst(
+	CLKIN,
+	RST,
+	XA,
+	XD,
+	XWE0,
+	sampler_tx
+);
+input  CLKIN;
+input  RST;
+input [19:0] XA;
+input [15:0] XD;
+input  XWE0;
+output sampler_tx;
+
+reg sample;
+time current_time;
+always @(CLKIN or RST or XA or XD or XWE0)
+                                                                                
+begin                                                 
+ if ($realtime > 0)                                   
+ begin                                                
+	if ($realtime == 0 || $realtime != current_time)  
+	begin									          
+		if (sample === 1'bx)                          
+			sample = 0;                               
+		else                                          
+			sample = ~sample;                         
+	end										          
+	current_time = $realtime;					      
+ end                                                  
+end                                                   
+
+assign sampler_tx = sample;
+endmodule
+
+module DSP_FPGA_IMC_PMSM_vlg_check_tst (
+	XD,
+	XINT3,
+	sampler_rx
+);
+input [15:0] XD;
+input  XINT3;
+input sampler_rx;
+
+reg [15:0] XD_expected;
+reg  XINT3_expected;
+
+reg [15:0] XD_prev;
+reg  XINT3_prev;
+
+reg  XINT3_expected_prev;
+
+reg  last_XINT3_exp;
+
+reg trigger;
+
+integer i;
+integer nummismatches;
+
+reg [1:2] on_first_change ;
+
+
+initial
+begin
+trigger = 0;
+i = 0;
+nummismatches = 0;
+on_first_change = 2'b1;
+end
+
+// update real /o prevs
+
+always @(trigger)
+begin
+	XD_prev = XD;
+	XINT3_prev = XINT3;
+end
+
+// update expected /o prevs
+
+always @(trigger)
+begin
+	XINT3_expected_prev = XINT3_expected;
+end
+
+
+
+// expected XINT3
+initial
+begin
+	XINT3_expected = 1'bX;
+	XINT3_expected = #999000 1'b0;
+end 
+// generate trigger
+always @(XD_expected or XD or XINT3_expected or XINT3)
+begin
+	trigger <= ~trigger;
+end
+
+always @(posedge sampler_rx or negedge sampler_rx)
+begin
+`ifdef debug_tbench
+	$display("Scanning pattern %d @time = %t",i,$realtime );
+	i = i + 1;
+	$display("| expected XD = %b | expected XINT3 = %b | ",XD_expected_prev,XINT3_expected_prev);
+	$display("| real XD = %b | real XINT3 = %b | ",XD_prev,XINT3_prev);
+`endif
+	if (
+		( XINT3_expected_prev !== 1'bx ) && ( XINT3_prev !== XINT3_expected_prev )
+		&& ((XINT3_expected_prev !== last_XINT3_exp) ||
+			on_first_change[2])
+	)
+	begin
+		$display ("ERROR! Vector Mismatch for output port XINT3 :: @time = %t",  $realtime);
+		$display ("     Expected value = %b", XINT3_expected_prev);
+		$display ("     Real value = %b", XINT3_prev);
+		nummismatches = nummismatches + 1;
+		on_first_change[2] = 1'b0;
+		last_XINT3_exp = XINT3_expected_prev;
+	end
+
+	trigger <= ~trigger;
+end
+initial 
+
+begin 
+$timeformat(-12,3," ps",6);
+#100000000;
+if (nummismatches > 0)
+	$display ("%d mismatched vectors : Simulation failed !",nummismatches);
+else
+	$display ("Simulation passed !");
+$finish;
+end 
+endmodule
+
+module DSP_FPGA_IMC_PMSM_vlg_vec_tst();
+// constants                                           
+// general purpose registers
+reg CLKIN;
+reg RST;
+reg [19:0] XA;
+reg [15:0] treg_XD;
+reg XWE0;
+// wires                                               
+wire [15:0] XD;
+wire XINT3;
+
+wire sampler;                             
+
+// assign statements (if any)                          
+assign XD = treg_XD;
+DSP_FPGA_IMC_PMSM i1 (
+// port map - connection between master ports and signals/registers   
+	.CLKIN(CLKIN),
+	.RST(RST),
+	.XA(XA),
+	.XD(XD),
+	.XINT3(XINT3),
+	.XWE0(XWE0)
+);
+
+// CLKIN
+initial
+begin
+	repeat(24)
+	begin
+		CLKIN = 1'b0;
+		CLKIN = #20000 1'b1;
+		# 20000;
+	end
+	CLKIN = 1'b0;
+	CLKIN = #20000 1'b1;
+	CLKIN = #19000 1'b0;
+end 
+
+// RST
+initial
+begin
+	RST = 1'b0;
+	RST = #200000 1'b1;
+	RST = #799000 1'b0;
+end 
+
+DSP_FPGA_IMC_PMSM_vlg_sample_tst tb_sample (
+	.CLKIN(CLKIN),
+	.RST(RST),
+	.XA(XA),
+	.XD(XD),
+	.XWE0(XWE0),
+	.sampler_tx(sampler)
+);
+
+DSP_FPGA_IMC_PMSM_vlg_check_tst tb_out(
+	.XD(XD),
+	.XINT3(XINT3),
+	.sampler_rx(sampler)
+);
+endmodule
+

@@ -1,0 +1,162 @@
+module XDSP(dac1,			// output: h0FC05
+				dac2,			// output: h0FC04
+				dac3,			// output: h0FC0C
+				dac4,			// output: h0FC0D
+				
+				adc1,			// input: h0FC00
+				adc2,			// input: h0FC01
+				adc3,			// input: h0FC03
+				adc4,			// input: h0FC02
+				adc5,			// input: h0FC06
+				adc6,			// input: h0FC07
+			
+				wen,			// input: DSP write enable			
+				ren,			// input: DSP read enable
+								
+				xadd,			// input:DSP  address
+				xdata,		// inout:DSP  data
+				
+				clk,			// input:clock
+				global_rst	// input:global_rst		
+				);
+				
+output [11:0]dac1;
+output [11:0]dac2;
+output [11:0]dac3;
+output [11:0]dac4;
+
+input [15:0]adc1;
+input [15:0]adc2;
+input [15:0]adc3;
+input [15:0]adc4;
+input [15:0]adc5;
+input [15:0]adc6;
+				
+input ren;
+input wen;
+
+input [19:0]xadd;
+inout [15:0]xdata;
+
+input clk;
+input global_rst;
+
+reg [11:0]dac1;
+reg [11:0]dac2;
+reg [11:0]dac3;
+reg [11:0]dac4;
+
+reg [11:0]dac1_reg;
+reg [11:0]dac2_reg;
+reg [11:0]dac3_reg;
+reg [11:0]dac4_reg;
+
+reg [15:0]adc1_reg;
+reg [15:0]adc2_reg;
+reg [15:0]adc3_reg;
+reg [15:0]adc4_reg;
+reg [15:0]adc5_reg;
+reg [15:0]adc6_reg;
+
+reg [15:0]xdata;
+reg [19:0]xadd_reg;
+//=============== XINTF ===================
+
+
+always @ (posedge clk or negedge global_rst)
+begin
+	if (!global_rst)
+	begin
+		adc1_reg <= 16'h0000;
+		adc2_reg <= 16'h0000;
+		adc3_reg <= 16'h0000;
+		adc4_reg <= 16'h0000;
+		adc5_reg <= 16'h0000;
+		adc6_reg <= 16'h0000;
+		xadd_reg <= 20'h00000;
+	end
+	else
+	begin
+		adc1_reg <= adc1;
+		adc2_reg <= adc2;
+		adc3_reg <= adc3;
+		adc4_reg <= adc4;
+		adc5_reg <= adc5;
+		adc6_reg <= adc6;	
+		xadd_reg	<= xadd;
+	end
+end
+
+//=============== XINTF ===================
+always @ (posedge clk or negedge global_rst)
+begin
+	if (!global_rst)
+	begin
+		dac1_reg <= 12'h000;
+		dac2_reg <= 12'h000;
+		dac3_reg <= 12'h000;
+		dac4_reg <= 12'h000;		
+	end
+	else
+	begin
+	if (!ren)
+	begin
+		case	(xadd_reg)
+		20'h0FC00:
+			xdata <= adc1_reg;			
+		20'h0FC01:
+			xdata <= adc2_reg;			
+		20'h0FC03:
+			xdata <= adc3_reg;			
+		20'h0FC02:
+			xdata <= adc4_reg;			
+		20'h0FC06:
+			xdata <= adc5_reg;						
+		20'h0FC07: 
+			xdata <= adc6_reg;
+		default:
+			xdata <= 16'hzzzz;
+		endcase
+	end
+	else if (!wen)
+	begin
+		case	(xadd_reg)
+		20'h0FC05:
+			dac1_reg <= xdata[11:0];
+		20'h0FC04:
+			dac2_reg <= xdata[11:0];	
+		20'h0FC0C:
+			dac3_reg <= xdata[11:0];	
+		default: //20'h0FC0D
+			dac4_reg <= xdata[11:0];
+		endcase
+	end
+	else
+	begin	
+		xdata <= 16'hzzzz;
+	end
+	end
+
+end
+
+
+always @ (posedge clk or negedge global_rst)
+begin
+	if (!global_rst)
+	begin
+		dac1 <= 12'h000;
+		dac2 <= 12'h000;
+		dac3 <= 12'h000;
+		dac4 <= 12'h000;
+		
+	end
+	else
+	begin
+		dac1 <= dac1_reg;
+		dac2 <= dac2_reg;
+		dac3 <= dac3_reg;
+		dac4 <= dac4_reg;		
+	end
+end
+
+endmodule	

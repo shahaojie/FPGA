@@ -1,0 +1,6 @@
+module Control_CLK(
+				clk_ts,		// output: h0FC01
+		
+				clk,			// input:clock
+				global_rst	// input:global_rst		
+				);

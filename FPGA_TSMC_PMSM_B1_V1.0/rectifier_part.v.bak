@@ -1,0 +1,71 @@
+module rectifier( Sap,       // Swithing signal
+						San,			// Swithing signal
+						Sbp,			// Swithing signal
+						Sbn,			// Swithing signal
+						Scp,			// Swithing signal
+						Scn,			// Swithing signal
+						
+						grid_judge,	// duty control
+						grid_sector, // voltage sector of grid side
+						SD,			 // Shutting down 
+						DOV,			 // DSP DATA END FLAG
+						
+					   sysclk,        // clkin
+					   global_rst    // global reset
+);
+
+input sysclk;
+input global_rst;
+
+input [15:0] grid_sector;
+input grid_judge;
+input SD;
+input DOV;
+
+output reg Sap;
+output reg San;
+output reg Sbp;
+output reg Sbn;
+output reg Scp;
+output reg Scn;
+
+
+
+// Sap Swithing Signal
+always @ (posedge sysclk or negedge global_rst) 
+if (!global_rst)
+	Sap <= 1'b0;
+else begin
+	if (!SD) 
+		Sap <= 1'b0;
+	else begin
+		if (!DOV) 
+			Sap <= Sap_last;
+		else begin
+			if (!grid_judge == 0)
+				case (grid_sector)
+				15'd1: Sap <= 1;
+				15'd2: Sap <= 1;		
+				15'd3: Sap <= 0;		
+				15'd4: Sap <= 0;		
+				15'd5: Sap <= 0;		
+				default: Sap <= 0;	
+				endcase
+			else 
+				case (grid_sector)
+				15'd1: Sap <= 1;
+				15'd2: Sap <= 0;		
+				15'd3: Sap <= 0;		
+				15'd4: Sap <= 0;		
+				15'd5: Sap <= 0;		
+				default: Sap <= 1;	
+				endcase			
+		end	
+	end
+		
+end
+	
+
+
+
+endmodule

@@ -1,0 +1,161 @@
+module top(	CLKIN,			// Input: CLK = 50MHz
+				RST,				// Input: global_rst signal
+				
+				XA,				// Input: DSP Address bus
+				XD,				//	Input: DSP Data bus
+				XWE0,				// Input: DSP write enable
+				XRD,				// Input: DSP read enable
+						
+				LED3,				// Output: LED3
+				LED4				// Output: LED4
+				);
+
+input CLKIN;
+input RST;
+
+input [19:0]XA;
+inout [15:0]XD;
+input XWE0;
+input XRD;
+
+output LED3;
+output LED4;
+
+//==========================================================================
+//==============================1. Input CLK(PLL)===========================
+//==========================================================================
+
+wire sysclk;
+			
+altpll0 
+pll0( .inclk0(CLKIN),
+		.c0(sysclk)
+);
+
+reg global_rst;
+always @ (posedge sysclk)
+	global_rst <= RST;
+	
+//==========================================================================
+//=======================2. AD (Currents & Voltage)=========================
+//==========================================================================
+/*
+Sample Resistant of VSR mainboard
+RD1 = 180.45 (Ohm) --- ISC --- ADC6
+RD2 = 180.73 (Ohm) --- ISA --- ADC4
+RD3 = 250.2 (Ohm)  --- VDC	--- ADC2
+RD10 = 180.2 (Ohm) --- ISB	--- ADC5
+RD11 = 250.3 (Ohm) --- VDC2 --- ADC3
+RD12 = 249.7 (Ohm) --- VDC1 --- ADC1
+
+*/
+wire [15:0]adc1;
+wire [15:0]adc2;
+wire [15:0]adc3;
+wire [15:0]adc4;
+wire [15:0]adc5;
+wire [15:0]adc6;
+
+wire [11:0] dac1;
+wire [11:0] dac2;
+wire [11:0] dac3;
+wire [11:0] dac4;
+
+reg ad_enable;
+reg ad_busy;
+
+
+always @ (posedge sysclk)
+begin
+	ad_enable <= XADC;
+	ad_busy   <= ADC_BUSY;
+end
+
+AD7656
+ad0	(.ad_cs(ADC_CS),				//output: enable signal for ad7656
+		 .ad_convst(ADC_COV),		//output: ad7656 convert command	
+	    .ad_rd(ADC_RD),				//output: ad7656 read command
+		 .ad_rst(ADC_RST),			//output: ad_rst signal
+	    .ad_end(ADC_END),			//output: ad convert is over
+		 .adc1(adc1),
+		 .adc2(adc2),
+		 .adc3(adc3),
+		 .adc4(adc4),
+		 .adc5(adc5),
+		 .adc6(adc6),		 
+		 .ad_busy(ad_busy),				//input: ad7656 busy index
+		 .ad_clk(sysclk),					//input: samping clk for ad7656
+		 .global_rst(global_rst),		//input: global_rst from DSP
+		 .ad_data(ADC_DATA),				//input: adc results of ad7656
+		 .ad_enable(ad_enable)					//input: adc enable signal
+		);
+
+//==========================================================================
+//===========================3. XDSP1 (AD & DA data)========================
+//==========================================================================
+
+reg xwrite;
+reg xrd;
+
+always @ (posedge sysclk)
+begin
+	xwrite <= XWE0;
+	xrd    <= XRD;
+end
+
+
+
+
+XDSP
+xdsp0		  (.dac1(dac1),			// output: h0FC05
+				.dac2(dac2),			// output: h0FC04
+				.dac3(dac3),			// output: h0FC0C
+				.dac4(dac4),			// output: h0FC0D
+				
+				.adc1(adc1),			// input: h0FC00
+				.adc2(adc2),			// input: h0FC01
+				.adc3(adc3),			// input: h0FC03
+				.adc4(adc4),			// input: h0FC02
+				.adc5(adc5),			// input: h0FC06
+				.adc6(adc6),			// input: h0FC07
+			
+				.wen(xwrite),			// input: DSP write enable			
+				.ren(xrd),			// input: DSP read enable
+								
+				.xadd(XA),			// input:DSP  address
+				.xdata(XD),		// inout:DSP  data
+				
+				.clk(sysclk),			// input:clock
+				.global_rst(global_rst)	// input:global_rst		
+				);
+
+//==========================================================================
+//======================= 4. DAC ============================================
+//==========================================================================
+
+// DAC controller
+wire da_enable;
+assign da_enable = 1'b1;
+
+DAC7724
+da0 ( .dac_addr(DAC_ADD),		   
+       .dac_data(DAC_DATA),    
+		 .ldac(LDAC),				     
+		 .dac_rst(DAC_RST),			   
+		 .global_rst(global_rst),		 
+		 .da_enable(da_enable),		  
+		 .da1(dac1),          	
+		 .da2(dac2),          
+		 .da3(dac3),          
+		 .da4(dac4),         	
+		 .clk(sysclk)			
+		);
+//==========================================================================
+//======================= 5. LED ============================================
+//==========================================================================
+
+assign LED1 = ~global_rst;					// Red light
+assign LED2 = XADC;				// Green light
+
+
+endmodule

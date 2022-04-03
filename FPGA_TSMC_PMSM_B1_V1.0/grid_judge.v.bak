@@ -1,0 +1,39 @@
+module div_any( grid_judge,       	// clkout
+					 grid_dm,			 	//grid duty
+					 global_cnt_rising,	// rising count
+					 systemclk,        	// clkin
+					 global_rst    		// global reset
+);
+
+input clkin;
+input global_rst;
+input grid_dm;
+
+output reg grid_judge;
+
+reg [15:0] grid_cnt;
+
+parameter PERIODMAX = 10000;
+
+always @ (posedge systemclk or negedge global_rst)
+
+always @ (posedge systemclk)
+if(!global_rst)
+  begin
+  grid_cnt<=16'd0;
+  grid_judge<= 1'b0;
+  end
+else if(grid_cnt < grid_dm)
+  begin
+  grid_judge<=1'b0;
+  grid_cnt	<= grid_cnt + 16'd1;
+  end
+else if(grid_cnt >= grid_dm)
+  begin
+  grid_judge<=1'b1;
+  grid_cnt	<= grid_cnt + 16'd1;
+  end
+else if(cnt > PERIODMAX)
+  grid_cnt <= 16'd0;
+  
+endmodule

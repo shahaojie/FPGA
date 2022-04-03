@@ -1,0 +1,16 @@
+Fitter Status : Successful - Tue Aug 21 09:20:56 2018
+Quartus II 64-Bit Version : 13.0.1 Build 232 06/12/2013 SP 1 SJ Full Version
+Revision Name : DSP_FPGA_IMC_PMSM
+Top-level Entity Name : DSP_FPGA_IMC_PMSM
+Family : Cyclone III
+Device : EP3C40Q240C8
+Timing Models : Final
+Total logic elements : 1,055 / 39,600 ( 3 % )
+    Total combinational functions : 595 / 39,600 ( 2 % )
+    Dedicated logic registers : 813 / 39,600 ( 2 % )
+Total registers : 813
+Total pins : 64 / 129 ( 50 % )
+Total virtual pins : 0
+Total memory bits : 0 / 1,161,216 ( 0 % )
+Embedded Multiplier 9-bit elements : 0 / 252 ( 0 % )
+Total PLLs : 1 / 4 ( 25 % )

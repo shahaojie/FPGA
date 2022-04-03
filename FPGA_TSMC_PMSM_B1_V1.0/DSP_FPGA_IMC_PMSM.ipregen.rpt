@@ -1,0 +1,71 @@
+IP Upgrade report for DSP_FPGA_IMC_PMSM
+Fri Feb 11 07:59:10 2022
+Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Standard Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. IP Upgrade Summary
+  3. Failed Upgrade IP Components
+  4. IP Upgrade Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++--------------------------------------------------------------------------------+
+; IP Upgrade Summary                                                             ;
++------------------------------+-------------------------------------------------+
+; IP Components Upgrade Status ; Failed - Fri Feb 11 07:59:10 2022               ;
+; Quartus Prime Version        ; 17.1.0 Build 590 10/25/2017 SJ Standard Edition ;
+; Revision Name                ; DSP_FPGA_IMC_PMSM                               ;
+; Top-level Entity Name        ; DSP_FPGA_IMC_PMSM                               ;
+; Family                       ; Cyclone V                                       ;
++------------------------------+-------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------------------------+
+; Failed Upgrade IP Components                                                                                                                       ;
++-------------+----------------+---------+----------------------+----------------------+-----------------+-------------------------------------------+
+; Entity Name ; Component Name ; Version ; Original Source File ; Generation File Path ; New Source File ; Message                                   ;
++-------------+----------------+---------+----------------------+----------------------+-----------------+-------------------------------------------+
+; MainPLL     ; ALTPLL         ; 13.0    ; MainPLL.qip          ; MainPLL.v            ;                 ; Error upgrading IP component "MainPLL.v". ;
++-------------+----------------+---------+----------------------+----------------------+-----------------+-------------------------------------------+
+
+
++---------------------+
+; IP Upgrade Messages ;
++---------------------+
+Info (11902): Backing up file "MainPLL.v" to "MainPLL.BAK.v"
+Info (11837): Started upgrading IP component ALTPLL with file "MainPLL.v"
+Info (11904): Restoring file "MainPLL.BAK.v" to "MainPLL.v"
+Error (14921): Error upgrading IP component "MainPLL.v".
+Error (11133): IP component ALTPLL with file "MainPLL.v" upgrade failed
+Error (11889): IP component upgrade failed
+Error (23031): Evaluation of Tcl script d:/quartus/quartus/common/tcl/internal/ip_regen/ip_regen.tcl unsuccessful
+Error: Quartus Prime Shell was unsuccessful. 4 errors, 0 warnings
+    Error: Peak virtual memory: 4873 megabytes
+    Error: Processing ended: Fri Feb 11 07:59:10 2022
+    Error: Elapsed time: 00:00:18
+    Error: Total CPU time (on all processors): 00:00:39
+
+

@@ -1,0 +1,2 @@
+Warning (10268): Verilog HDL information at retifier_clk.v(98): always construct contains both blocking and non-blocking assignments
+Warning (10268): Verilog HDL information at retifier_clk.v(129): always construct contains both blocking and non-blocking assignments

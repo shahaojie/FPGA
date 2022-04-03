@@ -1,0 +1,85 @@
+m255
+K3
+13
+cModel Technology
+Z0 dD:\WORKSPACES\Quartus workspace\DSP_FPGA_IMC_PMSM_V3.0\simulation\qsim
+vDSP_FPGA_IMC_PMSM
+Z1 I8XQ=3PAg7za=XC18PT_A<0
+Z2 V3DK_<^B@ocXc5da=?27d:1
+Z3 dD:\WORKSPACES\Quartus workspace\DSP_FPGA_IMC_PMSM_V3.0\simulation\qsim
+Z4 w1531731397
+Z5 8DSP_FPGA_IMC_PMSM.vo
+Z6 FDSP_FPGA_IMC_PMSM.vo
+L0 31
+Z7 OV;L;10.1d;51
+r1
+31
+Z8 !s90 -work|work|DSP_FPGA_IMC_PMSM.vo|
+Z9 o-work work -O0
+Z10 n@d@s@p_@f@p@g@a_@i@m@c_@p@m@s@m
+!i10b 1
+Z11 !s100 nJkLl0S3S0CRoVzklgT1F2
+!s85 0
+Z12 !s108 1531731401.897000
+Z13 !s107 DSP_FPGA_IMC_PMSM.vo|
+!s101 -O0
+vDSP_FPGA_IMC_PMSM_vlg_check_tst
+!i10b 1
+!s100 :jC@XBCbKnn>6TFQ`;]cK0
+IkJC=J0?9JmZ_]DzcQ8E<D0
+VeO_gQnX5kkjcVjWVm64;S3
+R3
+Z14 w1531731395
+Z15 8DSP_FPGA_IMC_PMSM.vt
+Z16 FDSP_FPGA_IMC_PMSM.vt
+L0 65
+R7
+r1
+!s85 0
+31
+Z17 !s108 1531731402.444000
+Z18 !s107 DSP_FPGA_IMC_PMSM.vt|
+Z19 !s90 -work|work|DSP_FPGA_IMC_PMSM.vt|
+!s101 -O0
+R9
+n@d@s@p_@f@p@g@a_@i@m@c_@p@m@s@m_vlg_check_tst
+vDSP_FPGA_IMC_PMSM_vlg_sample_tst
+!i10b 1
+!s100 T?FmU9YEBiS9ahRdUESBf0
+IZoeWCMAF5bBFYkdPQPWao2
+V0aPn[a6iVl`a_03O2fj5i2
+R3
+R14
+R15
+R16
+L0 29
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!s101 -O0
+R9
+n@d@s@p_@f@p@g@a_@i@m@c_@p@m@s@m_vlg_sample_tst
+vDSP_FPGA_IMC_PMSM_vlg_vec_tst
+!i10b 1
+!s100 lZLET>V^0Y0JGcbBkz9?k2
+IVmE1bKk89<3a4GhokVXh>3
+Z20 VKj6=^flGAOo3Y3Ff=bchd2
+R3
+R14
+R15
+R16
+L0 166
+R7
+r1
+!s85 0
+31
+R17
+R18
+R19
+!s101 -O0
+R9
+Z21 n@d@s@p_@f@p@g@a_@i@m@c_@p@m@s@m_vlg_vec_tst

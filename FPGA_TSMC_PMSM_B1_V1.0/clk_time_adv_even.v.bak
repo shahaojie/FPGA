@@ -1,0 +1,28 @@
+module time_adv_even(
+
+	input clk,global_rst,
+	
+	output reg clk_out);
+	
+parameter N = 2;
+parameter WIDTH = 7;
+
+reg [WIDTH:0]counter;
+
+always @ (posedge clk or negedge global_rst)
+begin
+	if (!global_rst)
+	begin
+	
+	
+	
+	
+	end
+
+
+
+end
+
+
+
+
